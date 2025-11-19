@@ -1,0 +1,82 @@
+[tool.poetry]
+name = "network-ids"
+version = "1.0.0"
+description = "Network Intrusion Detection System using Deep Learning on NSL-KDD Dataset"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [
+    { include = "backend" },
+    { include = "ml" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+# Backend dependencies
+fastapi = "^0.115.0"
+uvicorn = {extras = ["standard"], version = "^0.32.0"}
+sqlalchemy = "^2.0.35"
+asyncpg = "^0.29.0"
+redis = "^5.2.0"
+pydantic = "^2.9.0"
+pydantic-settings = "^2.6.0"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.12"
+alembic = "^1.13.0"
+python-dotenv = "^1.0.0"
+slowapi = "^0.1.9"
+
+# ML dependencies
+torch = "^2.5.0"
+scikit-learn = "^1.5.2"
+pandas = "^2.2.3"
+numpy = "^1.26.4"
+matplotlib = "^3.9.0"
+seaborn = "^0.13.2"
+onnx = "^1.17.0"
+onnxruntime = "^1.19.0"
+jupyter = "^1.1.1"
+imbalanced-learn = "^0.12.0"
+xgboost = "^2.1.0"
+joblib = "^1.4.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.0"
+httpx = "^0.27.0"
+black = "^24.0.0"
+ruff = "^0.7.0"
+mypy = "^1.13.0"
+pytest-cov = "^6.0.0"
+pytest-asyncio = "^0.24.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests", "ml/tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+
+
+
+
+
+

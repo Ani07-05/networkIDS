@@ -1,0 +1,118 @@
+{
+  "model_info": {
+    "input_dim": 122,
+    "hidden_dims": [
+      256,
+      128,
+      64
+    ],
+    "dropout_rate": 0.3,
+    "model_type": "deep_neural_network",
+    "framework": "pytorch",
+    "binary_params": 73666,
+    "multiclass_params": 73861,
+    "training_epochs": 50,
+    "batch_size": 1024,
+    "learning_rate": 0.001
+  },
+  "metrics": {
+    "binary": {
+      "accuracy": 0.7821593328601846,
+      "precision": 0.8206288254250492,
+      "recall": 0.7821593328601846,
+      "f1": 0.78152656816261,
+      "confusion_matrix": [
+        [
+          9025,
+          686
+        ],
+        [
+          4225,
+          8608
+        ]
+      ]
+    },
+    "multiclass": {
+      "accuracy": 0.7862845990063875,
+      "precision": 0.8187732381726389,
+      "recall": 0.7862845990063875,
+      "f1": 0.7774140904678625,
+      "per_class": {
+        "normal": {
+          "precision": 0.7193152454780362,
+          "recall": 0.9173102667078571,
+          "f1": 0.8063362751753791
+        },
+        "dos": {
+          "precision": 0.9175335443992161,
+          "recall": 0.8158176943699732,
+          "f1": 0.8636911942098915
+        },
+        "probe": {
+          "precision": 0.7848275862068965,
+          "recall": 0.7050805452292441,
+          "f1": 0.7428198433420365
+        },
+        "r2l": {
+          "precision": 0.9421407907425265,
+          "recall": 0.3386481802426343,
+          "f1": 0.4982151963284039
+        },
+        "u2r": {
+          "precision": 0.1523809523809524,
+          "recall": 0.7164179104477612,
+          "f1": 0.2513089005235602
+        }
+      },
+      "confusion_matrix": [
+        [
+          8908,
+          399,
+          330,
+          31,
+          43
+        ],
+        [
+          1262,
+          6086,
+          109,
+          0,
+          3
+        ],
+        [
+          530,
+          148,
+          1707,
+          22,
+          14
+        ],
+        [
+          1672,
+          0,
+          29,
+          977,
+          207
+        ],
+        [
+          12,
+          0,
+          0,
+          7,
+          48
+        ]
+      ]
+    }
+  },
+  "preprocessing": {
+    "num_features": 122,
+    "scaler": "StandardScaler",
+    "categorical_encoding": "one-hot",
+    "categorical_features": [
+      "protocol_type",
+      "service",
+      "flag"
+    ],
+    "preprocessor_path": "ml\\data\\processed\\preprocessor.json"
+  },
+  "version": "1.0.0"
+}
