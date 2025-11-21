@@ -36,9 +36,13 @@ class Settings(BaseSettings):
     
     @property
     def cors_origins_list(self) -> list[str]:
-        """Parse CORS_ORIGINS string into list."""
+        """Parse CORS_ORIGINS string into list. Supports wildcard for Vercel deployments."""
         if isinstance(self.CORS_ORIGINS, str):
-            return [origin.strip() for origin in self.CORS_ORIGINS.split(",")]
+            origins = [origin.strip() for origin in self.CORS_ORIGINS.split(",")]
+            # Add wildcard support for Vercel preview deployments
+            if any("vercel.app" in origin for origin in origins):
+                origins.append("https://*.vercel.app")
+            return origins
         return self.CORS_ORIGINS
     
     # Allowed hosts (for production)
