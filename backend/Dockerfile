@@ -9,19 +9,15 @@ RUN apt-get update && apt-get install -y \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Poetry
-RUN pip install --no-cache-dir poetry==1.7.1
-
-# Copy Poetry configuration
-COPY pyproject.toml poetry.lock* ./
+# Copy requirements
+COPY requirements.txt .
 
 # Install Python dependencies
-RUN poetry config virtualenvs.create false \
-    && poetry install --no-interaction --no-ansi --no-root
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY backend/app ./app
-COPY ml ./ml
+COPY app ./app
+COPY ../ml ./ml
 
 # Expose port
 EXPOSE 8000

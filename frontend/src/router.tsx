@@ -2,8 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { SignIn, SignUp, useUser } from '@clerk/clerk-react';
 import App from './App';
 import LandingPage from './pages/LandingPage';
-import DashboardPage from './pages/DashboardPage';
-import PredictionPage from './pages/PredictionPage';
+import PredictPage from './pages/PredictPage';
 import HistoryPage from './pages/HistoryPage';
 import ModelInfoPage from './pages/ModelInfoPage';
 import ProfilePage from './pages/ProfilePage';
@@ -44,7 +43,7 @@ export const router = createBrowserRouter([
         path: 'dashboard',
         element: (
           <ProtectedRoute>
-            <DashboardPage />
+            <PredictPage />
           </ProtectedRoute>
         ),
       },
@@ -52,7 +51,7 @@ export const router = createBrowserRouter([
         path: 'predict',
         element: (
           <ProtectedRoute>
-            <PredictionPage />
+            <PredictPage />
           </ProtectedRoute>
         ),
       },

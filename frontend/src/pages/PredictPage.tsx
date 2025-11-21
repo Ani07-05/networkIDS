@@ -49,12 +49,12 @@ export default function PredictPage() {
       addLog(`Prediction complete: ${response.data.attack_type} (confidence: ${(response.data.multiclass_confidence * 100).toFixed(1)}%)`);
       addLog(`Inference time: ${response.data.inference_time_ms.toFixed(2)}ms`);
       addLog('Saved to database');
-      showToast('success', '✓ Analysis complete & saved to history');
+      showToast('✓ Analysis complete & saved to history', 'success');
       fetchHistory();
     } catch (error) {
       console.error('Prediction error:', error);
       addLog('ERROR: Prediction failed');
-      showToast('error', 'Failed to run analysis');
+      showToast('Failed to run analysis', 'error');
     } finally {
       setIsLoading(false);
     }
@@ -98,23 +98,23 @@ export default function PredictPage() {
   const validateAndSetFile = (file: File) => {
     // Validate file type
     if (!file.type.includes('csv') && !file.name.endsWith('.csv')) {
-      showToast('error', 'Please select a CSV file');
+      showToast('Please select a CSV file', 'error');
       return;
     }
     
     // Validate file size (must be > 0 and < 10MB)
     if (file.size === 0) {
-      showToast('error', 'File is empty. Please select a valid CSV file');
+      showToast('File is empty. Please select a valid CSV file', 'error');
       return;
     }
     
     if (file.size > 10 * 1024 * 1024) {
-      showToast('error', 'File is too large. Maximum size is 10MB');
+      showToast('File is too large. Maximum size is 10MB', 'error');
       return;
     }
     
     setSelectedFile(file);
-    showToast('success', `File "${file.name}" selected`);
+    showToast(`File "${file.name}" selected`, 'success');
     // Reset previous results
     setResult(null);
     setBatchResult(null);
@@ -149,14 +149,14 @@ export default function PredictPage() {
       
       if (features.length === 0) {
         addLog('ERROR: No valid records found in CSV');
-        showToast('error', 'No valid data found in CSV. Check browser console for details.');
+        showToast('No valid data found in CSV. Check browser console for details.', 'error');
         return;
       }
       
       const processCount = Math.min(features.length, 1000);
       if (features.length > 1000) {
         addLog(`Processing first ${processCount} of ${features.length} records`);
-        showToast('warning', `Found ${features.length} records - processing first 1000`);
+        showToast(`Found ${features.length} records - processing first 1000`, 'warning');
       }
 
       addLog('Sending batch to ML pipeline');
@@ -170,14 +170,14 @@ export default function PredictPage() {
       addLog(`Batch complete: ${attacks} attacks, ${normal} normal (${response.data.processing_time_ms.toFixed(0)}ms total)`);
       addLog(`Average latency: ${(response.data.processing_time_ms / response.data.total).toFixed(2)}ms per prediction`);
       addLog('Saved to database');
-      showToast('success', `✓ Processed ${response.data.total} records & saved to history`);
+      showToast(`✓ Processed ${response.data.total} records & saved to history`, 'success');
       fetchHistory();
 
       
     } catch (error) {
       console.error('Batch prediction error:', error);
       addLog('ERROR: Batch prediction failed');
-      showToast('error', 'Failed to process file');
+      showToast('Failed to process file', 'error');
     } finally {
       setIsLoading(false);
     }
@@ -370,7 +370,7 @@ export default function PredictPage() {
                       link.href = '/sample_test.csv';
                       link.download = 'sample_test.csv';
                       link.click();
-                      showToast('success', 'Sample CSV downloaded! Check your Downloads folder');
+                      showToast('Sample CSV downloaded! Check your Downloads folder', 'success');
                     }}
                   >
                     Download Sample CSV
