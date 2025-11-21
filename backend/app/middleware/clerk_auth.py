@@ -59,24 +59,27 @@ async def verify_clerk_token(
         first_name: Optional[str] = payload.get("first_name")
         last_name: Optional[str] = payload.get("last_name")
         
-        if not clerk_id or not email:
+        if not clerk_id:
+            print(f"[AUTH ERROR] Missing clerk_id in token payload: {payload.keys()}")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid authentication credentials",
+                detail="Invalid authentication credentials - missing user ID",
                 headers={"WWW-Authenticate": "Bearer"},
             )
         
+        # Email might not be in the token, so don't require it
         return ClerkUser(
             clerk_id=clerk_id,
-            email=email,
+            email=email or f"{clerk_id}@clerk.dev",  # Fallback email
             first_name=first_name,
             last_name=last_name
         )
         
-    except JWTError:
+    except JWTError as e:
+        print(f"[AUTH ERROR] JWT validation failed: {type(e).__name__}: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
+            detail=f"Could not validate credentials: {type(e).__name__}",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
