@@ -37,7 +37,18 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Configure CORS - Allow all origins for now to debug
+# Add rate limiting middleware (100 requests per minute per IP)
+# Must be added before CORS to work correctly
+from app.middleware.rate_limit import RateLimitMiddleware
+app.add_middleware(RateLimitMiddleware, calls=100, period=60)
+
+# Add security headers middleware
+# Must be added before CORS to work correctly
+from app.middleware.security_headers import SecurityHeadersMiddleware
+app.add_middleware(SecurityHeadersMiddleware)
+
+# Configure CORS - MUST BE LAST MIDDLEWARE
+# Allow all origins for now to debug
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -46,14 +57,6 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
 )
-
-# Add security headers middleware
-from app.middleware.security_headers import SecurityHeadersMiddleware
-app.add_middleware(SecurityHeadersMiddleware)
-
-# Add rate limiting middleware (100 requests per minute per IP)
-from app.middleware.rate_limit import RateLimitMiddleware
-app.add_middleware(RateLimitMiddleware, calls=100, period=60)
 
 # Add trusted host middleware (disabled in development)
 if not settings.DEBUG:
