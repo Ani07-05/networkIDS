@@ -1,0 +1,50 @@
+services:
+  - type: web
+    name: network-ids-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_NAME
+        value: Network IDS API
+      - key: APP_VERSION
+        value: 1.0.0
+      - key: DEBUG
+        value: False
+      - key: SECRET_KEY
+        sync: false
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      - key: CORS_ORIGINS
+        sync: false
+      - key: RATE_LIMIT_PER_MINUTE
+        value: 60
+      - key: BINARY_MODEL_PATH
+        value: ml/models/nids_model_binary.onnx
+      - key: MULTICLASS_MODEL_PATH
+        value: ml/models/nids_model_multiclass.onnx
+      - key: PREPROCESSOR_PATH
+        value: ml/data/processed/preprocessor.json
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: CLERK_JWT_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: network-ids-db
+          property: connectionString
+      - key: REDIS_URL
+        fromDatabase:
+          name: network-ids-redis
+          property: connectionString
+
+databases:
+  - name: network-ids-db
+    databaseName: nids_db
+    plan: free
+    
+  - name: network-ids-redis
+    plan: free
