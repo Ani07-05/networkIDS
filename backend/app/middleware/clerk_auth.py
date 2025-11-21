@@ -44,11 +44,11 @@ async def verify_clerk_token(
     token = credentials.credentials
     
     try:
-        # Decode JWT token
+        # Decode JWT token using RS256 for Clerk's public key
         payload = jwt.decode(
             token,
             settings.CLERK_JWT_KEY,
-            algorithms=[settings.ALGORITHM],
+            algorithms=["RS256"],
             audience=None,
             options={"verify_aud": False, "verify_nbf": False},
         )
