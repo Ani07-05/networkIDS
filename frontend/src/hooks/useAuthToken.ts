@@ -20,7 +20,7 @@ export function useAuthToken() {
       }
 
       try {
-        const token = await getToken({ template: 'backend' })
+        const token = await getToken()
         if (isMounted) {
           setAuthToken(token ?? null)
         }
