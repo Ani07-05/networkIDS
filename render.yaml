@@ -4,7 +4,7 @@ services:
     runtime: python
     plan: free
     buildCommand: pip install -r backend/requirements.txt
-    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: APP_NAME
         value: Network IDS API
@@ -23,11 +23,11 @@ services:
       - key: RATE_LIMIT_PER_MINUTE
         value: 60
       - key: BINARY_MODEL_PATH
-        value: ml/models/nids_model_binary.onnx
+        value: /opt/render/project/src/ml/models/nids_model_binary.onnx
       - key: MULTICLASS_MODEL_PATH
-        value: ml/models/nids_model_multiclass.onnx
+        value: /opt/render/project/src/ml/models/nids_model_multiclass.onnx
       - key: PREPROCESSOR_PATH
-        value: ml/data/processed/preprocessor.json
+        value: /opt/render/project/src/ml/data/processed/preprocessor.json
       - key: CLERK_SECRET_KEY
         sync: false
       - key: CLERK_JWT_KEY
