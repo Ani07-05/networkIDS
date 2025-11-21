@@ -32,10 +32,24 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
     # CORS
-    CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:5173"]
+    CORS_ORIGINS: str = "http://localhost:3000,http://localhost:5173"
+    
+    @property
+    def cors_origins_list(self) -> list[str]:
+        """Parse CORS_ORIGINS string into list."""
+        if isinstance(self.CORS_ORIGINS, str):
+            return [origin.strip() for origin in self.CORS_ORIGINS.split(",")]
+        return self.CORS_ORIGINS
     
     # Allowed hosts (for production)
-    ALLOWED_HOSTS: list[str] = ["localhost", "127.0.0.1", "*.your-domain.com"]
+    ALLOWED_HOSTS: str = "localhost,127.0.0.1,*.onrender.com"
+    
+    @property
+    def allowed_hosts_list(self) -> list[str]:
+        """Parse ALLOWED_HOSTS string into list."""
+        if isinstance(self.ALLOWED_HOSTS, str):
+            return [host.strip() for host in self.ALLOWED_HOSTS.split(",")]
+        return self.ALLOWED_HOSTS
     
     # Rate Limiting
     RATE_LIMIT_PER_MINUTE: int = 60
